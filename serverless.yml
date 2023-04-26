@@ -1,0 +1,57 @@
+org: kryvmykyta
+app: photodroplambda
+service: photodroplambda
+frameworkVersion: '3'
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: nodejs16.x
+  region: eu-central-1
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - s3:CreateBucket
+        - s3:DeleteBucket
+        - s3:ListBucket
+        - s3:PutObject
+        - s3:GetObject
+        - s3:DeleteObject
+        - s3:GetBucketPolicy
+        - s3:PutBucketPolicy
+        - s3:DeleteBucketPolicy
+        - s3:PutBucketAcl
+        - s3:PutObjectAcl
+        - s3:GetObjectAcl
+        - s3:GetEncryptionConfiguration
+        - s3:PutEncryptionConfiguration
+      Resource: "*"
+
+
+functions:
+  hello:
+    handler: handler.hello
+    timeout: 60
+    events:
+      - s3:
+          bucket: photodropbucketkryv
+          event: s3:ObjectCreated:*
+          existing: true
+          rules:
+            - prefix: original/
+  selfie:
+    handler: selfies.selfie
+    timeout: 60
+    events:
+      - s3:
+          bucket: photodropbucketkryv
+          event: s3:ObjectCreated:*
+          existing: true
+          rules:
+            - prefix: selfies/
+
+plugins:
+  - serverless-plugin-typescript
+  - serverless-offline
+  - serverless-dotenv-plugin
+
