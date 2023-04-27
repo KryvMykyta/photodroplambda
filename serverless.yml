@@ -30,7 +30,7 @@ provider:
 
 functions:
   hello:
-    handler: handler.hello
+    handler: lambdas/handler.hello
     timeout: 60
     events:
       - s3:
@@ -40,7 +40,7 @@ functions:
           rules:
             - prefix: original/
   selfie:
-    handler: selfies.selfie
+    handler: lambdas/selfies.selfie
     timeout: 60
     events:
       - s3:

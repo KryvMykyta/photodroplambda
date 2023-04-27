@@ -20,8 +20,8 @@ export const selfie = async (event: S3Event): Promise<any> => {
   const object = await s3.getPhoto(keyObject);
   const resized = await photoEditor.resizePicture(
     object.Body as Buffer,
-    50,
-    50
+    100,
+    100
   );
   await s3.loadPhoto(`selfies1/${key}`, resized);
 };
