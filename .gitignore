@@ -2,6 +2,7 @@
 node_modules
 jspm_packages
 .env
+test.jpeg
 
 # Serverless directories
 .serverless
